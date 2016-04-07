@@ -1,0 +1,68 @@
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+1.0 Defaults
+2.0 Timer
+3.0 Footer
+--------------------------------------------------------------*/
+
+@import 'mixins';
+%primaryfont { font-family: 'Source Sans Pro', serif; }
+
+/*--------------------------------------------------------------
+  1.0 Defaults
+--------------------------------------------------------------*/
+html, body {
+  height: 100%;
+  font-size: 10px;
+  font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+  @extend %primaryfont;
+  background-color: white;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+*:focus {
+  outline: none;
+}
+
+.parent {
+  width: 100%;
+  height: 100%;
+  display: table;
+  text-align: center;
+  > .child {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+/*--------------------------------------------------------------
+  2.0 Timer
+--------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------
+  3.0 Footer
+--------------------------------------------------------------*/
+#footer {
+  text-align: center;
+  color: #9a9a9a;
+  font-size: 14px;
+  margin-top: 4em;
+  a {
+    color: #9a9a9a;
+    text-decoration: none;
+    @include transition(all .2s ease-in-out);
+    &:hover {
+      color: white;
+    }
+  }
+}
