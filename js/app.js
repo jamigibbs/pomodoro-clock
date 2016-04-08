@@ -3,14 +3,15 @@
 
   $(document).ready(function(){
 
-    document.getElementById('pause').classList.add('hidden');
-
     // Define our variables
     var breakLength = 5,
         sessionLength = 25,
         tick,
         minutes,
         seconds;
+
+    document.getElementById('pause').classList.add('hidden');
+    document.getElementById('minutes').innerHTML = sessionLength;
 
     // The brains
     var timerObj = {
@@ -60,11 +61,28 @@
     // Reset timer
     $('#reset').click(function(){
       timerObj.pause();
-      sessionLength = 25;
+      sessionLength = document.getElementById('session-length').innerHTML;
       $('#minutes').text(sessionLength);
       $('#seconds').text('00');
       document.getElementById('start').classList.remove('hidden');
       document.getElementById('pause').classList.add('hidden');
+    });
+
+    // Session Length Controls
+    $('#decrease-session').click(function(){
+      if(sessionLength < 2){
+        sessionLength = 1;
+        return;
+      }
+      sessionLength = sessionLength - 1;
+      $('#session-length').text(sessionLength);
+      document.getElementById('minutes').innerHTML = sessionLength;
+    });
+
+    $('#increase-session').click(function(){
+      sessionLength = sessionLength + 1;
+      $('#session-length').text(sessionLength);
+      document.getElementById('minutes').innerHTML = sessionLength;
     });
 
   });
