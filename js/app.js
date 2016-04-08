@@ -74,13 +74,13 @@
         sessionLength = 1;
         return;
       }
-      sessionLength = sessionLength - 1;
+      sessionLength--;
       $('#session-length').text(sessionLength);
       document.getElementById('minutes').innerHTML = sessionLength;
     });
 
     $('#increase-session').click(function(){
-      sessionLength = sessionLength + 1;
+      sessionLength++;
       $('#session-length').text(sessionLength);
       document.getElementById('minutes').innerHTML = sessionLength;
     });
