@@ -121,16 +121,22 @@
         }
 
         sessionLength--;
-
         $('#session-length').text(sessionLength);
-        document.getElementById('minutes').innerHTML = sessionLength;
+
+        if(!breakTime){
+          document.getElementById('minutes').innerHTML = sessionLength;
+        }
 
       } else if(el === 'increase' && active === false){
+        
+        var tempLength = document.getElementById('session-length').innerHTML;
+        tempLength++;
+        $('#session-length').text(tempLength);
 
-        sessionLength++;
-
-        $('#session-length').text(sessionLength);
-        document.getElementById('minutes').innerHTML = sessionLength;
+        if(!breakTime){
+          document.getElementById('minutes').innerHTML = tempLength;
+          sessionLength = tempLength;
+        }
 
       }
     }
