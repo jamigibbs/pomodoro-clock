@@ -172,37 +172,32 @@
       }
     }
 
-    // Start timer
-    $('#start').click(function(){
-      timerControl('start');
-    });
-
-    // Pause timer
-    $('#pause').click(function(){
-      timerControl('pause');
-    });
-
-    // Reset timer
-    $('#reset').click(function(){
-      timerControl('reset');
-    });
-
-    // Session Length Controls
-    $('#decrease-session').click(function(){
-      sessionControl('decrease');
-    });
-
-    $('#increase-session').click(function(){
-      sessionControl('increase');
-    });
-
-    // Break Length Controls
-    $('#decrease-break').click(function(){
-      breakControl('decrease');
-    });
-
-    $('#increase-break').click(function(){
-      breakControl('increase');
+    $('.action').click(function () {
+      switch ( $(this).attr('id') ) {
+        case 'start':
+            timerControl('start');
+            break;
+        case 'pause':
+            timerControl('pause');
+            break;
+        case 'reset':
+            timerControl('reset');
+            break;
+        case 'decrease-session':
+            sessionControl('decrease');
+            break;
+        case 'increase-session':
+            sessionControl('increase');
+            break;
+        case 'decrease-break':
+            breakControl('decrease');
+            break;
+        case 'increase-break':
+            breakControl('increase');
+            break;
+        default:
+            console.log('No id');
+      }
     });
 
   });
