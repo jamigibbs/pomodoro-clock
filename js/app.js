@@ -5,7 +5,8 @@
 
     // Define our variables
     var timerBrain,
-        sessionLength = 1,
+        sessionLength = 25,
+        breakLength = 5,
         tick,
         minutes,
         seconds,
@@ -134,6 +135,35 @@
       }
     }
 
+    function breakControl(el){
+      if(el === 'decrease' && active === false){
+
+        if(breakLength < 2){
+          breakLength = 1;
+          return;
+        }
+
+        breakLength--;
+        $('#break-length').text(breakLength);
+
+        if(breakTime){
+          sessionLength = breakLength;
+          document.getElementById('minutes').innerHTML = sessionLength;
+        }
+
+      } else if(el === 'increase' && active === false){
+
+        breakLength++;
+        $('#break-length').text(breakLength);
+
+        if(breakTime){
+          sessionLength = breakLength;
+          document.getElementById('minutes').innerHTML = sessionLength;
+        }
+
+      }
+    }
+
     // Start timer
     $('#start').click(function(){
       timerControl('start');
@@ -156,6 +186,15 @@
 
     $('#increase-session').click(function(){
       sessionControl('increase');
+    });
+
+    // Break Length Controls
+    $('#decrease-break').click(function(){
+      breakControl('decrease');
+    });
+
+    $('#increase-break').click(function(){
+      breakControl('increase');
     });
 
   });
