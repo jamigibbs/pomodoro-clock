@@ -51,45 +51,81 @@
 
     };
 
+    function timerControl(el){
+      if(el === 'start'){
+
+        timerObj.countdown(sessionLength);
+
+        document.getElementById('start').classList.add('hidden');
+        document.getElementById('pause').classList.remove('hidden');
+
+      } else if(el === 'pause'){
+
+        timerObj.pause();
+
+        document.getElementById('start').classList.remove('hidden');
+        document.getElementById('pause').classList.add('hidden');
+
+      } else if(el === 'reset'){
+
+        timerObj.pause();
+
+        sessionLength = document.getElementById('session-length').innerHTML;
+
+        $('#minutes').text(sessionLength);
+        $('#seconds').text('00');
+
+        document.getElementById('start').classList.remove('hidden');
+        document.getElementById('pause').classList.add('hidden');
+
+      }
+    }
+
+    function sessionControl(el){
+      if(el === 'decrease'){
+
+        if(sessionLength < 2){
+          sessionLength = 1;
+          return;
+        }
+
+        sessionLength--;
+
+        $('#session-length').text(sessionLength);
+        document.getElementById('minutes').innerHTML = sessionLength;
+
+      } else if(el === 'increase'){
+
+        sessionLength++;
+        
+        $('#session-length').text(sessionLength);
+        document.getElementById('minutes').innerHTML = sessionLength;
+
+      }
+    }
+
     // Start timer
     $('#start').click(function(){
-      timerObj.countdown(sessionLength);
-      document.getElementById('start').classList.add('hidden');
-      document.getElementById('pause').classList.remove('hidden');
+      timerControl('start');
     });
 
     // Pause timer
     $('#pause').click(function(){
-      timerObj.pause();
-      document.getElementById('start').classList.remove('hidden');
-      document.getElementById('pause').classList.add('hidden');
+      timerControl('pause');
     });
 
     // Reset timer
     $('#reset').click(function(){
-      timerObj.pause();
-      sessionLength = document.getElementById('session-length').innerHTML;
-      $('#minutes').text(sessionLength);
-      $('#seconds').text('00');
-      document.getElementById('start').classList.remove('hidden');
-      document.getElementById('pause').classList.add('hidden');
+      timerControl('reset');
     });
 
     // Session Length Controls
     $('#decrease-session').click(function(){
-      if(sessionLength < 2){
-        sessionLength = 1;
-        return;
-      }
-      sessionLength--;
-      $('#session-length').text(sessionLength);
-      document.getElementById('minutes').innerHTML = sessionLength;
+      sessionControl('decrease');
     });
 
     $('#increase-session').click(function(){
-      sessionLength++;
-      $('#session-length').text(sessionLength);
-      document.getElementById('minutes').innerHTML = sessionLength;
+      sessionControl('increase');
     });
 
   });
