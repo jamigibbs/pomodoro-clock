@@ -126,7 +126,7 @@
         // Get the user's desired work session length
         sessionLength = document.getElementById('session-length').innerHTML;
 
-        // Display their designed work session length
+        // Display the work session length
         $('#minutes').text(sessionLength);
         $('#seconds').text('00');
 
@@ -140,23 +140,27 @@
     function sessionControl(el){
 
       // Isolating the user's adjusted time so that we can selectivly pass
-      // the timer length depending on if the work or break time is active
+      // to the clock display depending on if the work or break time is active
       var tempLength = document.getElementById('session-length').innerHTML;
+      // Convert from string to number
+      tempLength = parseInt(tempLength);
 
+      // Only increment if the clock is inactive
       if(el === 'decrease' && active === false){
 
-        // Don't allow the work session to go below 1 minute
-        if(tempLength < 2){
-          tempLength = 1;
+        // Don't allow the work session to go below 5 minutes
+        if(tempLength < 6){
+          tempLength = 5;
           // Don't display the work session time in the clock if we're on break time
           if(!breakTime){
             document.getElementById('minutes').innerHTML = tempLength;
           }
+          // No need to go any further
           return;
         }
 
-        // Subtract one from the work session
-        tempLength--;
+        // Decrement work session by five
+        tempLength -= 5;
         // Update the work session in the settings
         $('#session-length').text(tempLength);
 
@@ -167,10 +171,12 @@
           sessionLength = tempLength;
         }
 
+      // Only increment if the clock is inactive
       } else if(el === 'increase' && active === false){
+        
+        // Increment work session by five
+        tempLength += 5;
 
-        // Add one to the work session
-        tempLength++;
         // Update the work session in the settings
         $('#session-length').text(tempLength);
 
@@ -185,16 +191,17 @@
     }
 
     function breakControl(el){
+      // Only increment if the clock is inactive
       if(el === 'decrease' && active === false){
 
         // Don't allow the break session to go below 1 minute
-        if(breakLength < 2){
-          breakLength = 1;
+        if(breakLength < 6){
+          breakLength = 5;
           return;
         }
 
         // Subtract one from the break session
-        breakLength--;
+        breakLength -= 5;
         // Update the break session in the settings
         $('#break-length').text(breakLength);
 
@@ -205,16 +212,17 @@
           sessionLength = breakLength;
         }
 
+      // Only increment if the clock is inactive
       } else if(el === 'increase' && active === false){
 
         // Increase one from the break session
-        breakLength++;
+        breakLength += 5;
         // Update the break session in the settings
         $('#break-length').text(breakLength);
 
         // Display the break session in the clock if we're on a break session
         if(breakTime){
-          document.getElementById('minutes').innerHTML = sessionLength;
+          document.getElementById('minutes').innerHTML = breakLength;
           // Assign the user's adjusted break session time to the master session length
           sessionLength = breakLength;
         }
