@@ -8,7 +8,8 @@
         sessionLength = 25,
         tick,
         minutes,
-        seconds;
+        seconds,
+        active = false;
 
     // Start by hiding the pause button
     document.getElementById('pause').classList.add('hidden');
@@ -21,7 +22,7 @@
       // Countdown functionality
       countdown: function(duration){
         var timer = duration * 60;
-
+        active = true;
         // Assigning to var so we can use clearInterval when paused
         tick = setInterval(function () {
           minutes = parseInt(timer / 60, 10);
@@ -36,6 +37,7 @@
           // When the timer completes
           if (--timer < 0) {
             timer = duration;
+            active = false;
             $('#notice').text('Break time!');
             timerObj.pause();
           }
@@ -68,6 +70,7 @@
 
       } else if(el === 'reset'){
 
+        active = false;
         timerObj.pause();
 
         sessionLength = document.getElementById('session-length').innerHTML;
@@ -82,7 +85,7 @@
     }
 
     function sessionControl(el){
-      if(el === 'decrease'){
+      if(el === 'decrease' && active === false){
 
         if(sessionLength < 2){
           sessionLength = 1;
@@ -94,10 +97,10 @@
         $('#session-length').text(sessionLength);
         document.getElementById('minutes').innerHTML = sessionLength;
 
-      } else if(el === 'increase'){
+      } else if(el === 'increase' && active === false){
 
         sessionLength++;
-        
+
         $('#session-length').text(sessionLength);
         document.getElementById('minutes').innerHTML = sessionLength;
 
