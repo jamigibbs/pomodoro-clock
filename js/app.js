@@ -11,7 +11,8 @@
         minutes,
         seconds,
         active = false,
-        breakTime = false;
+        breakTime = false,
+        ding = new buzz.sound('assets/ding.mp3');
 
     // Hide the pause button at launch
     document.getElementById('pause').classList.add('hidden');
@@ -42,6 +43,7 @@
             active = false;
             timerBrain.pause();
             sessionSwitch();
+            ding.play();
           }
 
         }, 1000);
@@ -128,7 +130,7 @@
         }
 
       } else if(el === 'increase' && active === false){
-        
+
         var tempLength = document.getElementById('session-length').innerHTML;
         tempLength++;
         $('#session-length').text(tempLength);
