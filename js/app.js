@@ -10,15 +10,19 @@
         minutes,
         seconds;
 
+    // Start by hiding the pause button
     document.getElementById('pause').classList.add('hidden');
+    // Assign the Initial session length value
     document.getElementById('minutes').innerHTML = sessionLength;
 
-    // The brains
+    // Timer Brains
     var timerObj = {
 
+      // Countdown functionality
       countdown: function(duration){
         var timer = duration * 60;
 
+        // Assigning to var so we can use clearInterval when paused
         tick = setInterval(function () {
           minutes = parseInt(timer / 60, 10);
           seconds = parseInt(timer % 60, 10);
@@ -29,14 +33,17 @@
           $('#minutes').text(minutes);
           $('#seconds').text(seconds);
 
+          // When the timer completes
           if (--timer < 0) {
             timer = duration;
-            $('#time').text('Break time!');
+            $('#notice').text('Break time!');
             timerObj.pause();
           }
+
         }, 1000);
       },
 
+      // Pause functionality
       pause: function(){
         clearInterval(tick);
         sessionLength = minutes + (seconds / 60);
