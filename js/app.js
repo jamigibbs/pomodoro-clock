@@ -4,20 +4,21 @@
   $(document).ready(function(){
 
     // Define our variables
-    var breakLength = 5,
-        sessionLength = 25,
+    var timerBrain,
+        sessionLength = 1,
         tick,
         minutes,
         seconds,
-        active = false;
+        active = false,
+        breakTime = false;
 
-    // Start by hiding the pause button
+    // Hide the pause button at launch
     document.getElementById('pause').classList.add('hidden');
-    // Assign the Initial session length value
-    document.getElementById('minutes').innerHTML = sessionLength;
+    // Display the Initial session length value
+    $('#minutes').text(sessionLength);
 
-    // Timer Brains
-    var timerObj = {
+    // The Timer Brains
+    timerBrain = {
 
       // Countdown functionality
       countdown: function(duration){
@@ -38,8 +39,8 @@
           if (--timer < 0) {
             timer = duration;
             active = false;
-            $('#notice').text('Break time!');
-            timerObj.pause();
+            timerBrain.pause();
+            sessionSwitch();
           }
 
         }, 1000);
@@ -53,17 +54,43 @@
 
     };
 
+    function sessionSwitch(){
+      if(breakTime){
+        // Switch to work session
+        breakTime = false;
+        sessionLength = document.getElementById('session-length').innerHTML;
+
+        $('#minutes').text(sessionLength);
+        $('#seconds').text('00');
+        $('#notice').text('Work time!');
+
+        document.getElementById('start').classList.remove('hidden');
+        document.getElementById('pause').classList.add('hidden');
+      } else {
+        // Switch to break session
+        breakTime = true;
+        sessionLength = document.getElementById('break-length').innerHTML;
+
+        $('#minutes').text(sessionLength);
+        $('#seconds').text('00');
+        $('#notice').text('Break time!');
+
+        document.getElementById('start').classList.remove('hidden');
+        document.getElementById('pause').classList.add('hidden');
+      }
+    }
+
     function timerControl(el){
       if(el === 'start'){
 
-        timerObj.countdown(sessionLength);
+        timerBrain.countdown(sessionLength);
 
         document.getElementById('start').classList.add('hidden');
         document.getElementById('pause').classList.remove('hidden');
 
       } else if(el === 'pause'){
 
-        timerObj.pause();
+        timerBrain.pause();
 
         document.getElementById('start').classList.remove('hidden');
         document.getElementById('pause').classList.add('hidden');
@@ -71,7 +98,7 @@
       } else if(el === 'reset'){
 
         active = false;
-        timerObj.pause();
+        timerBrain.pause();
 
         sessionLength = document.getElementById('session-length').innerHTML;
 
