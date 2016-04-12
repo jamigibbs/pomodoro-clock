@@ -15,7 +15,8 @@
         ding = new buzz.sound('assets/ding.mp3');
 
     // Hide the pause button at launch
-    document.getElementById('pause').classList.add('hidden');
+    pauseShow(false);
+
     // Display the Initial session length value
     $('#minutes').text(sessionLength);
 
@@ -64,6 +65,18 @@
 
     };
 
+    function pauseShow(bool){
+      if(bool){
+        // Show the pause button & hide the start button
+        document.getElementById('pause').classList.remove('hidden');
+        document.getElementById('start').classList.add('hidden');
+      } else {
+        // Show the start button & hide the pause button
+        document.getElementById('start').classList.remove('hidden');
+        document.getElementById('pause').classList.add('hidden');
+      }
+    }
+
     function sessionSwitch(){
       if(breakTime){
         // Change to work session if a break time finished
@@ -78,8 +91,8 @@
         $('#notice').text('Work time');
 
         // Show the start button & hide the pause button
-        document.getElementById('start').classList.remove('hidden');
-        document.getElementById('pause').classList.add('hidden');
+        pauseShow(true);
+
       } else {
         // Change to break session if a work session finished
         breakTime = true;
@@ -93,8 +106,7 @@
         $('#notice').text('Break time');
 
         // Show the start button & hide the pause button
-        document.getElementById('start').classList.remove('hidden');
-        document.getElementById('pause').classList.add('hidden');
+        pauseShow(false);
       }
     }
 
@@ -105,8 +117,7 @@
         timerBrain.countdown(sessionLength);
 
         // Show the pause button & hide the start button
-        document.getElementById('start').classList.add('hidden');
-        document.getElementById('pause').classList.remove('hidden');
+        pauseShow(true);
 
       } else if(el === 'pause'){
 
@@ -114,8 +125,7 @@
         timerBrain.pause();
 
         // Show the start button & hide the pause button
-        document.getElementById('start').classList.remove('hidden');
-        document.getElementById('pause').classList.add('hidden');
+        pauseShow(false);
 
       } else if(el === 'reset'){
 
@@ -131,8 +141,7 @@
         $('#seconds').text('00');
 
         // Display the start button & hide the pause button
-        document.getElementById('start').classList.remove('hidden');
-        document.getElementById('pause').classList.add('hidden');
+        pauseShow(false);
 
       }
     }
@@ -173,7 +182,7 @@
 
       // Only increment if the clock is inactive
       } else if(el === 'increase' && active === false){
-        
+
         // Increment work session by five
         tempLength += 5;
 
