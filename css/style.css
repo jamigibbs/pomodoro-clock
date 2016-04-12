@@ -80,6 +80,9 @@ button#reset {
 #clock #time {
   font-size: 16em;
   font-weight: 100; }
+  @media only screen and (max-width: 40em) {
+    #clock #time {
+      font-size: 9em; } }
 
 #settings {
   margin: 0 auto;
@@ -87,6 +90,9 @@ button#reset {
   color: #64B5F6;
   position: relative;
   top: 2em; }
+  @media only screen and (max-width: 40em) {
+    #settings {
+      width: 350px; } }
   #settings #break-controls, #settings #session-controls {
     display: inline-block;
     height: 120px;
@@ -97,6 +103,10 @@ button#reset {
     -moz-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out; }
+    @media only screen and (max-width: 40em) {
+      #settings #break-controls, #settings #session-controls {
+        height: 100px;
+        width: 100px; } }
     #settings #break-controls button, #settings #session-controls button {
       position: relative;
       top: 1.5em;
@@ -111,12 +121,21 @@ button#reset {
       transition: color 0.2s ease-in-out; }
       #settings #break-controls button:hover, #settings #session-controls button:hover {
         cursor: pointer; }
+      @media only screen and (max-width: 40em) {
+        #settings #break-controls button, #settings #session-controls button {
+          top: 1.85em;
+          font-size: 1em; } }
     #settings #break-controls #break-length, #settings #break-controls #session-length, #settings #session-controls #break-length, #settings #session-controls #session-length {
       position: relative;
       top: 1.25em;
       font-size: 2em;
       font-weight: 400;
       margin: 0 0.15em; }
+      @media only screen and (max-width: 40em) {
+        #settings #break-controls #break-length, #settings #break-controls #session-length, #settings #session-controls #break-length, #settings #session-controls #session-length {
+          top: 1.5em;
+          font-size: 1.5em;
+          margin: 0; } }
     #settings #break-controls:hover, #settings #session-controls:hover {
       color: white;
       border-color: white; }
@@ -142,6 +161,13 @@ button#reset {
       color: white !important;
       border-color: white;
       cursor: pointer; }
+    @media only screen and (max-width: 40em) {
+      #settings #startpause button {
+        width: 100px;
+        height: 100px;
+        top: 1.5em;
+        font-size: 1em;
+        margin: 0; } }
   #settings #break-controls {
     float: left; }
     #settings #break-controls h3 {
@@ -191,6 +217,9 @@ a#instructions {
     margin: 10% auto;
     padding: 40px 60px 60px 60px;
     background: #fff; }
+    @media only screen and (max-width: 40em) {
+      .modalDialog > div {
+        width: 250px; } }
   .modalDialog .close {
     background: white;
     color: black;

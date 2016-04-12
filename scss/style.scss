@@ -92,6 +92,9 @@ button#reset {
   #time {
     font-size: 16em;
     font-weight: 100;
+    @include bp-small {
+      font-size: 9em;
+    }
   }
 }
 
@@ -101,6 +104,9 @@ button#reset {
   color: $secondary;
   position: relative;
   top: 2em;
+  @include bp-small {
+    width: 350px;
+  }
   #break-controls, #session-controls {
     display: inline-block;
     height: 120px;
@@ -108,6 +114,10 @@ button#reset {
     border: 2px solid $secondary;
     border-radius: 50%;
     @include transition(all .2s ease-in-out);
+    @include bp-small {
+      height: 100px;
+      width: 100px;
+    }
     button {
       position: relative;
       top: 1.5em;
@@ -120,6 +130,10 @@ button#reset {
       &:hover {
         cursor: pointer;
       }
+      @include bp-small {
+        top: 1.85em;
+        font-size: 1em;
+      }
     }
     #break-length, #session-length {
       position: relative;
@@ -127,6 +141,11 @@ button#reset {
       font-size: 2em;
       font-weight: 400;
       margin: 0 0.15em;
+      @include bp-small {
+        top: 1.5em;
+        font-size: 1.5em;
+        margin: 0;
+      }
     }
     &:hover {
       color: white;
@@ -154,6 +173,13 @@ button#reset {
       color: white !important;
       border-color: white;
       cursor: pointer;
+    }
+    @include bp-small {
+      width: 100px;
+      height: 100px;
+      top: 1.5em;
+      font-size: 1em;
+      margin: 0;
     }
   }
   #break-controls {
@@ -206,6 +232,9 @@ a#instructions {
     margin: 10% auto;
     padding: 40px 60px 60px 60px;
     background: #fff;
+    @include bp-small {
+      width: 250px;
+    }
   }
   .close {
     background: white;
