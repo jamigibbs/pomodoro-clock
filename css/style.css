@@ -169,11 +169,11 @@ button#reset {
         font-size: 1em;
         margin: 0; } }
   #settings #break-controls {
-    float: left; }
+    float: right; }
     #settings #break-controls h3 {
       font-size: 0.5em; }
   #settings #session-controls {
-    float: right; }
+    float: left; }
 
 /*--------------------------------------------------------------
   3.0 Modal
@@ -184,7 +184,7 @@ a#instructions {
   left: 0;
   padding: 0.75em;
   font-size: 2.5em;
-  color: #64B5F6;
+  color: #b2dafb;
   -webkit-transition: color 0.2s ease-in-out;
   -moz-transition: color 0.2s ease-in-out;
   -o-transition: color 0.2s ease-in-out;

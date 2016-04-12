@@ -26,3 +26,7 @@
 @function darken($color, $percentage) {
   @return mix(black, $color, $percentage);
 }
+
+@function lighten($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
