@@ -9,7 +9,7 @@
   <meta name="description" content="Pomodoro Clock">
   <meta name="author" content="Jami Gibbs">
 
-  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,100,700,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/style.css">
 
   <script src="js/jquery-1.12.3.min.js"></script>
@@ -22,48 +22,68 @@
 
 <body>
 
+  <button class="action" id="reset">Reset</button>
+
+  <a href="#openModal" id="instructions" >?</a>
+
+  <div id="openModal" class="modalDialog">
+    <div>
+
+      <a href="#close" title="Close" class="close">X</a>
+
+      <h2>Pomodoro Clock</h2>
+
+      <p>The pomodoro technique is a time management method that uses a timer to break down work into intervals separated by short breaks.</p>
+
+      <p>By default, this app is set to a <strong>25 minutes work session</strong> and a <strong>5 minute break session</strong>.</p>
+
+      <p>You can adjust the work and break sessions by toggling the plus and minus buttons next to the respective session length.</p>
+
+      <p>When a session has completed, a small ding will sound and you'll switch to the next session type.</p>
+
+      <p>Made by <a href="https://twitter.com/jamigibbs" target="_blank">Jami Gibbs</a>. View on <a href="https://github.com/jamigibbs/pomodoro-clock" target="_blank">Github</a></p>
+
+    </div>
+  </div>
+
   <section class="parent">
     <div class="child">
 
-
-      <div id="settings">
-
-        <div id="break-controls">
-          <h4>Break Length</h4>
-          <button class="action" id="decrease-break">-</button>
-            <span id="break-length">5</span>
-          <button class="action" id="increase-break">+</button>
-        </div>
-
-        <div id="session-controls">
-          <h4>Session Length</h4>
-          <button class="action" id="decrease-session">-</button>
-            <span id="session-length">25</span>
-          <button class="action" id="increase-session">+</button>
-        </div>
-
-      </div>
-
       <div id="clock">
-        <h4>Session</h4>
 
         <div id="time">
           <span id="minutes"></span>:<span id="seconds">00</span>
         </div>
 
-        <button class="action" id="start">Start</button>
-        <button class="action" id="pause">Pause</button>
-        <button class="action" id="reset">Reset</button>
-
-        <div id="notice"></div>
       </div>
 
-      <div id="footer">
-        Made by <a href="https://github.com/jamigibbs/pomodoro-clock">Jami Gibbs</a>
+      <div id="settings">
+
+        <div id="break-controls">
+          <button class="action" id="decrease-break">-</button>
+          <span id="break-length">5</span>
+          <button class="action" id="increase-break">+</button>
+        </div>
+
+        <div id="startpause">
+          <button class="action ripplelink" id="start">Start</button>
+          <button class="action ripplelink" id="pause">Pause</button>
+        </div>
+
+        <div id="session-controls">
+          <button class="action" id="decrease-session">-</button>
+          <span id="session-length">25</span>
+          <button class="action" id="increase-session">+</button>
+        </div>
+
       </div>
 
     </div>
   </section>
+
+  <footer class="site-footer">
+    <div id="notice"></div>
+  </footer>
 
   <script src="js/app.js"></script>
 </body>
