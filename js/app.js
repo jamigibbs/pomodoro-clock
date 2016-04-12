@@ -26,6 +26,10 @@
       // Countdown functionality
       countdown: function(duration){
         var timer = duration * 60;
+
+        // Shave off the first second so we don't see a start delay
+        timer -= 1;
+
         active = true;
 
         // Assigning to var so we can use clearInterval when paused
