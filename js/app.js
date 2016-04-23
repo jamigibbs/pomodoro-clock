@@ -244,7 +244,7 @@
     }
 
     // Handle each of our click events
-    $('.action').click(function () {
+    $('.action').on('click', function () {
       switch ( $(this).attr('id') ) {
         case 'start':
             timerControl('start');
