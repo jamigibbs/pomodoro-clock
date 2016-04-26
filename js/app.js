@@ -1,75 +1,101 @@
 (function(){
   'use strict';
 
-  $(document).ready(function(){
+  var PomodoroClock = {
 
-    // Define our variables
-    var timerBrain,
-        sessionLength = 25,
-        breakLength = 5,
-        tick,
-        minutes,
-        seconds,
-        active = false,
-        breakTime = false,
-        ding = new buzz.sound('assets/ding.mp3');
+    sessionLength: 25,
+    breakLength: 5,
+    tick: null,
+    minutes: null,
+    seconds: null,
+    active: false,
+    breakTime: false,
+    ding: new buzz.sound('assets/ding.mp3'),
 
-    // Hide the pause button at launch
-    pauseShow(false);
+    init: function(){
+      var that = this;
 
-    // Display the Initial session length value
-    $('#minutes').text(sessionLength);
+      that.pauseShow(false);
 
-    // The Timer Brains
-    timerBrain = {
+      $('#minutes').text(that.sessionLength);
 
-      // Countdown functionality
-      countdown: function(duration){
-        var timer = duration * 60;
+      // Handle each of our click events
+      $('.action').on('click', function () {
+        switch ( $(this).attr('id') ) {
+          case 'start':
+              that.timerControl('start');
+              break;
+          case 'pause':
+              that.timerControl('pause');
+              break;
+          case 'reset':
+              that.timerControl('reset');
+              break;
+          case 'decrease-session':
+              that.sessionControl('decrease');
+              break;
+          case 'increase-session':
+              that.sessionControl('increase');
+              break;
+          case 'decrease-break':
+              that.breakControl('decrease');
+              break;
+          case 'increase-break':
+              that.breakControl('increase');
+              break;
+          default:
+              console.log('No id');
+        }
+      });
 
-        // Shave off the first second so we don't see a start delay
-        timer -= 1;
+    },
 
-        active = true;
+    // Countdown functionality
+    countdown: function(duration){
+      var that = this,
+          timer = duration * 60;
 
-        // Assigning to var so we can use clearInterval when paused
-        tick = setInterval(function () {
-          minutes = parseInt(timer / 60, 10);
-          seconds = parseInt(timer % 60, 10);
+      // Shave off the first second so we don't see a start delay
+      timer -= 1;
 
-          minutes = minutes < 10 ? "0" + minutes : minutes;
-          seconds = seconds < 10 ? "0" + seconds : seconds;
+      that.active = true;
 
-          // Display the min/secs
-          $('#minutes').text(minutes);
-          $('#seconds').text(seconds);
+      // Assigning to var so we can use clearInterval when paused
+      that.tick = setInterval(function () {
+        that.minutes = parseInt(timer / 60, 10);
+        that.seconds = parseInt(timer % 60, 10);
 
-          // When the timer completes
-          if (--timer < 0) {
-            // Keep track of the timer's status
-            active = false;
-            // Stops the interval
-            timerBrain.pause();
-            // Swap between work and break sessions
-            sessionSwitch();
-            // Play the ding sound
-            ding.play();
-          }
+        that.minutes = that.minutes < 10 ? "0" + that.minutes : that.minutes;
+        that.seconds = that.seconds < 10 ? "0" + that.seconds : that.seconds;
 
-        }, 1000);
-      },
+        // Display the min/secs
+        $('#minutes').text(that.minutes);
+        $('#seconds').text(that.seconds);
 
-      // Pause functionality
-      pause: function(){
-        // Stops the setInterval
-        clearInterval(tick);
-        // Calculates the current session time for restarting
-        sessionLength = minutes + (seconds / 60);
-      }
+        // When the timer completes
+        if (--timer < 0) {
+          // Keep track of the timer's status
+          that.active = false;
+          // Stops the interval
+          that.pause();
+          // Swap between work and break sessions
+          that.sessionSwitch();
+          // Play the ding sound
+          that.ding.play();
+        }
 
-    };
+      }, 1000);
+    },
 
-    function pauseShow(bool){
+    pause: function(){
+      var that = this;
+      // Stops the setInterval
+      clearInterval(that.tick);
+      // Calculates the current session time for restarting
+      that.sessionLength = that.minutes + (that.seconds / 60);
+    },
+
+    pauseShow: function(bool){
       if(bool){
         // Show the pause button & hide the start button
         document.getElementById('pause').classList.remove('hidden');
@@ -79,78 +105,83 @@
         document.getElementById('start').classList.remove('hidden');
         document.getElementById('pause').classList.add('hidden');
       }
-    }
+    },
 
-    function sessionSwitch(){
-      if(breakTime){
+    sessionSwitch: function(){
+      var that = this;
+
+      if(that.breakTime){
         // Change to work session if a break time finished
-        breakTime = false;
+        that.breakTime = false;
         // Grab the work session time that the user wants
-        sessionLength = document.getElementById('session-length').innerHTML;
+        that.sessionLength = document.getElementById('session-length').innerHTML;
 
         // Display work time
-        $('#minutes').text(sessionLength);
+        $('#minutes').text(that.sessionLength);
         $('#seconds').text('00');
         // Announce a work time will begin next
         $('#notice').text('Work time');
 
         // Show the start button & hide the pause button
-        pauseShow(true);
+        that.pauseShow(true);
 
       } else {
         // Change to break session if a work session finished
-        breakTime = true;
+        that.breakTime = true;
         // Grab the break sessino time that the use wants
-        sessionLength = document.getElementById('break-length').innerHTML;
+        that.sessionLength = document.getElementById('break-length').innerHTML;
 
         // Display the break time
-        $('#minutes').text(sessionLength);
+        $('#minutes').text(that.sessionLength);
         $('#seconds').text('00');
         // Announce a break time will begin next
         $('#notice').text('Break time');
 
         // Show the start button & hide the pause button
-        pauseShow(false);
+        that.pauseShow(false);
       }
-    }
+    },
 
-    function timerControl(el){
+    timerControl: function(el){
+      var that = this;
+
       if(el === 'start'){
 
         // Start the timer
-        timerBrain.countdown(sessionLength);
+        that.countdown(that.sessionLength);
 
         // Show the pause button & hide the start button
-        pauseShow(true);
+        that.pauseShow(true);
 
       } else if(el === 'pause'){
 
         // Pause the timer
-        timerBrain.pause();
+        that.pause();
 
         // Show the start button & hide the pause button
-        pauseShow(false);
+        that.pauseShow(false);
 
       } else if(el === 'reset'){
 
         // Set the timer as inactive
-        active = false;
+        that.active = false;
         // Stop the timer if it's playing
-        timerBrain.pause();
+        that.pause();
         // Get the user's desired work session length
-        sessionLength = document.getElementById('session-length').innerHTML;
+        that.sessionLength = document.getElementById('session-length').innerHTML;
 
         // Display the work session length
-        $('#minutes').text(sessionLength);
+        $('#minutes').text(that.sessionLength);
         $('#seconds').text('00');
 
         // Display the start button & hide the pause button
-        pauseShow(false);
+        that.pauseShow(false);
 
       }
-    }
+    },
 
-    function sessionControl(el){
+    sessionControl: function(el){
+      var that = this;
 
       // Isolating the user's adjusted time so that we can selectivly pass
       // to the clock display depending on if the work or break time is active
@@ -159,13 +190,13 @@
       tempLength = parseInt(tempLength);
 
       // Only increment if the clock is inactive
-      if(el === 'decrease' && active === false){
+      if(el === 'decrease' && that.active === false){
 
         // Don't allow the work session to go below 5 minutes
         if(tempLength < 6){
           tempLength = 5;
           // Don't display the work session time in the clock if we're on break time
-          if(!breakTime){
+          if(!that.breakTime){
             document.getElementById('minutes').innerHTML = tempLength;
           }
           // No need to go any further
@@ -178,14 +209,14 @@
         $('#session-length').text(tempLength);
 
         // Display the work session time in the clock if we're on a work session
-        if(!breakTime){
+        if(!that.breakTime){
           document.getElementById('minutes').innerHTML = tempLength;
           // Assign the user's adjusted work session time to the master session length
-          sessionLength = tempLength;
+          that.sessionLength = tempLength;
         }
 
       // Only increment if the clock is inactive
-      } else if(el === 'increase' && active === false){
+    } else if(el === 'increase' && that.active === false){
 
         // Increment work session by five
         tempLength += 5;
@@ -194,84 +225,61 @@
         $('#session-length').text(tempLength);
 
         // Display the work session time in the clock if we're on a work session
-        if(!breakTime){
+        if(!that.breakTime){
           document.getElementById('minutes').innerHTML = tempLength;
           // Assign the user's adjusted work session time to our master session length
-          sessionLength = tempLength;
+          that.sessionLength = tempLength;
         }
 
       }
-    }
+    },
 
-    function breakControl(el){
+    breakControl: function(el){
+      var that = this;
+
       // Only increment if the clock is inactive
-      if(el === 'decrease' && active === false){
+      if(el === 'decrease' && that.active === false){
 
         // Don't allow the break session to go below 1 minute
-        if(breakLength < 6){
-          breakLength = 5;
+        if(that.breakLength < 6){
+          that.breakLength = 5;
           return;
         }
 
         // Subtract one from the break session
-        breakLength -= 5;
+        that.breakLength -= 5;
         // Update the break session in the settings
-        $('#break-length').text(breakLength);
+        $('#break-length').text(that.breakLength);
 
         // Display the break session in the clock if we're on a break session
-        if(breakTime){
-          document.getElementById('minutes').innerHTML = sessionLength;
+        if(that.breakTime){
+          document.getElementById('minutes').innerHTML = that.sessionLength;
           // Assign the user's adjusted break session time to the master session length
-          sessionLength = breakLength;
+          that.sessionLength = that.breakLength;
         }
 
       // Only increment if the clock is inactive
-      } else if(el === 'increase' && active === false){
+      } else if(el === 'increase' && that.active === false){
 
         // Increase one from the break session
-        breakLength += 5;
+        that.breakLength += 5;
         // Update the break session in the settings
-        $('#break-length').text(breakLength);
+        $('#break-length').text(that.breakLength);
 
         // Display the break session in the clock if we're on a break session
-        if(breakTime){
-          document.getElementById('minutes').innerHTML = breakLength;
+        if(that.breakTime){
+          document.getElementById('minutes').innerHTML = that.breakLength;
           // Assign the user's adjusted break session time to the master session length
-          sessionLength = breakLength;
+          that.sessionLength = that.breakLength;
         }
 
       }
     }
 
-    // Handle each of our click events
-    $('.action').on('click', function () {
-      switch ( $(this).attr('id') ) {
-        case 'start':
-            timerControl('start');
-            break;
-        case 'pause':
-            timerControl('pause');
-            break;
-        case 'reset':
-            timerControl('reset');
-            break;
-        case 'decrease-session':
-            sessionControl('decrease');
-            break;
-        case 'increase-session':
-            sessionControl('increase');
-            break;
-        case 'decrease-break':
-            breakControl('decrease');
-            break;
-        case 'increase-break':
-            breakControl('increase');
-            break;
-        default:
-            console.log('No id');
-      }
-    });
+  };
 
+  $(document).ready(function(){
+    PomodoroClock.init();
   });
 
-}());
+})();
