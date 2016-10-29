@@ -123,7 +123,7 @@
         $('#notice').text('Work time');
 
         // Show the start button & hide the pause button
-        that.pauseShow(true);
+        that.pauseShow(false);
 
       } else {
         // Change to break session if a work session finished
